@@ -201,6 +201,11 @@
     <a href="#" class="logo">Developer</a>
     <nav class="nav-items">
       <a href="{% url 'myapp:register' %}">Register</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'members:logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'members:login' %}">Login</a>
+      {% endif %}
       <a href="#about-me">About</a>
       <a href="{% url 'myapp:contact_form' %}">Contact</a>
     </nav>
