@@ -23,3 +23,23 @@ def logout_user(request):
     messages.success(request, ("Logged out successfully"))
     return redirect('/')
 
+def register_user(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, "Registration Completed")
+                return redirect('/')
+            else:
+                # Handle authentication failure if needed
+                pass
+
+    else:
+        form = UserCreationForm()
+        return render(request, 'authenticate/register_user.html', {'form': form})

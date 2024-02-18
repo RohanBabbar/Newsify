@@ -200,10 +200,12 @@
   <header class="header">
     <a href="#" class="logo">Developer</a>
     <nav class="nav-items">
-      <a href="{% url 'myapp:register' %}">Register</a>
+      <!-- <a href="{% url 'myapp:register' %}">Register</a> -->
       {% if user.is_authenticated %}
         <a href="{% url 'members:logout' %}">Logout</a>
       {% else %}
+        <a href="{% url 'members:register_user' %}">Register</a>
+        
         <a href="{% url 'members:login' %}">Login</a>
       {% endif %}
       <a href="#about-me">About</a>
