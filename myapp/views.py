@@ -1,9 +1,47 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 #ListView allows a query set into a database and brings back the details of all the records while DetailView brings back the details of one record
 import requests
 from .models import Contact, Article
 from django.http import HttpResponse
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("/")  
+    else:
+        form = UserCreationForm()
+
+    return render(request, "myapp/register.html", {'form': form})
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('homepage')  # Redirect to the home page after login
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'myapp/login.html', {'form': form})
 
 def home(request):
     return render(request, 'myapp/homepage.html')
