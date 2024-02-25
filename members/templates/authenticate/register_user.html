@@ -6,7 +6,7 @@
 
     <p>There was an error in the form..</p>
     {% endif %}
-        <form action="{% url 'members:register_user' %}" method=POST>
+        <form method="post" action="{% url 'members:register_user' %}">
             {% csrf_token %}
             {{ form }}
             <input type="submit" value="Submit" class="btn btn-secondary">

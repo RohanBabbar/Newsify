@@ -1,4 +1,5 @@
-<!-- myapp/category_list.html -->
+{% extends 'myapp/base.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +10,8 @@
         body{
             font-family: Arial, Helvetica, sans-serif;
             background-color: rgb(253, 242, 228);
-            margin: 20px;  
-            padding: 20px; 
+            /* margin: 20px;  
+            padding: 20px;  */
         }
         h1 {
             color: #333;
@@ -43,6 +44,38 @@
   width: auto;
 }
 
+    /* Style for Like and Dislike buttons */
+.like-button, .dislike-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4CAF50; /* Green for Like */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dislike-button {
+    background-color: #f44336; /* Red for Dislike */
+}
+
+/* Hover effect */
+.like-button:hover {
+    background-color: #45a049; /* Darker green for Like */
+    transform: scale(1.05);
+}
+.dislike-button:hover{
+    background-color: #f44336; /* Darker green for Like */
+    transform: scale(1.05);
+}
+
+
+
 button:hover,
 button:focus {
   border-color: rgba(0, 0, 0, 0.15);
@@ -66,6 +99,9 @@ img {
   border-radius: 4px;
   padding: 5px;
   width: 150px;
+}
+.names{
+    padding: 20px;
 }
 .box{
         border: 1px solid #ddd;
@@ -91,23 +127,40 @@ img {
         <button onclick="window.location.href='{% url 'myapp:category_list' category='politics' %}'">Politics</button>
         <button onclick="window.location.href='{% url 'myapp:category_list' category='business' %}'">Business</button>
         <button onclick="window.location.href='{% url 'myapp:category_list' category='sports' %}'">Sports</button>
-        <button onclick="window.location.href='{% url 'myapp:category_list' category='technology' %}'">Tech</button>
+        <button onclick="window.location.href='{% url 'myapp:category_list' category='technology' %}'">Technology</button>
         <button onclick="window.location.href='{% url 'myapp:category_list' category='health' %}'">Health</button>
     </div>
     <ul>
         {% for article in articles|slice:":5" %}
         <div class="box">
             <div class="title">
-                <h2>{{ article.title }}</h2>
+                <h2><a href="{% if article.url %}{{ article.url }}{% endif %}" target="_blank">{{ article.title }}</a></h2>
                 <img src="{{ article.urlToImage }}" alt="{{ article.title }}">
+                <p>{{ article.id }}</p>
                 <p class="description">{{ article.description }}</p>
+                <form method="post" action="{% url 'myapp:like_dislike_article' article_identifier=article.url %}">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="like" class="like-button">
+                        Like <span class="like-count">{{ article.likes }}</span>
+                    </button>
+                </form>
+                
+                <form method="post" action="{% url 'myapp:like_dislike_article' article_identifier=article.url %}">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="dislike" class="dislike-button">
+                        Dislike <span class="dislike-count">{{ article.dislikes }}</span>
+                    </button>
+                </form>
+                
             </div>
         </div>
-        
         {% endfor %}
     </ul>
+    
 </body>
 </html>
+{% endblock %}
+
 <!-- 81ee455129704276a4b2e5baed4a07c1 -->
 
 

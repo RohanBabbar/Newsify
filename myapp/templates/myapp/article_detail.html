@@ -1,0 +1,15 @@
+<!-- myapp/article_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ article.title }}</h1>
+  <img src="{{ article.urlToImage }}" alt="{{ article.title }}">
+  
+  {% if content %}
+    <div class="article-content">
+      {{ content | safe }} {# Use the safe filter to render HTML content #}
+    </div>
+  {% else %}
+    <p>Sorry, the article content could not be retrieved.</p>
+  {% endif %}
+{% endblock %}

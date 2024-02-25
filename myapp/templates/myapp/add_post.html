@@ -1,0 +1,12 @@
+
+
+{% block content %}
+    <div style="max-width: 600px; margin: auto;">
+        <h1 style="color: #333; margin-bottom: 20px;">Add Post...</h1>
+        <form method="POST" style="border: 1px solid #ddd; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button style="padding: 10px 15px; background-color: #007BFF; color: #fff; border: none; cursor: pointer; border-radius: 5px;">POST</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Latest Posts</h1>
+    <ul class="list-group">
+        {% for post in post_list %}
+            <li class="list-group-item">
+                <h5 class="mb-1">
+                    <a href="{% url 'myapp:blog-detail' post.pk %}">{{ post.title }}</a>
+                </h5>
+                <small>By: {{ post.author.username }}</small><br>
+                <p class="mb-1">{{ post.body }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
